@@ -1,5 +1,8 @@
 package com.example.base;
 
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.example.report.ExtentTestManager;
+import com.example.utils.Helper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -21,7 +24,27 @@ public class Actions
     {
         String base64Screenshot = ((TakesScreenshot) Objects.requireNonNull(DriverManager.getDriver())).getScreenshotAs(OutputType.BASE64);
         ExtentTestManager.getTest()
-                .info
+                .info("Screenshot", MediaEntityBuilder.createScreenCaptureFromBase64String(base64Screenshot).build());
+    }
+
+    public static void sleep(int sleepInSeconds)
+    {
+        try
+        {
+            LOGGER.info("Waiting for {} seconds", sleepInSeconds);
+            Thread.sleep(sleepInSeconds*1000L);
+        }
+        catch(Exception e)
+        {
+//
+        }
+    }
+    public static void openUrl(String url){openUrl(url, "Opened url: "+url);}
+
+    public static void openUrl(String url, String message)
+    {
+        DriverManager.getDriver().get();
+        Helper.log(message);
     }
 
 }
