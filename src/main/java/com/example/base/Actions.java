@@ -2,15 +2,20 @@ package com.example.base;
 
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.example.report.ExtentTestManager;
+import com.example.utils.ConfigManager;
 import com.example.utils.Helper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.sql.DriverManager;
 import java.util.Objects;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+
 
 public class Actions
 {
@@ -43,8 +48,15 @@ public class Actions
 
     public static void openUrl(String url, String message)
     {
-        DriverManager.getDriver().get();
+        DriverManager.getDriver().get(url);
         Helper.log(message);
+    }
+
+    public static WebElement find(WebElement webElement)
+    {
+        WebDriverWait wait = new WebDriverWait(com.example.base.DriverManager.getDriver(),
+                Integer.parseInt(ConfigManager.getConfigProperty("explicit.wait.time")));
+        return wait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
 }
